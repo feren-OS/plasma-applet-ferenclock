@@ -112,7 +112,7 @@ Item {
             PropertyChanges {
                 target: contentItem
 
-                height: timeLabel.height + (main.showDate || timezoneLabel.visible ? 0.8 * timeLabel.height : 0)
+                height: timeLabel.height + (main.showDate || timezoneLabel.visible ? 1 * timeLabel.height : 0)
                 width: Math.max(labelsGrid.width, timezoneLabel.paintedWidth, dateLabel.paintedWidth)
             }
 
@@ -131,28 +131,28 @@ Item {
             PropertyChanges {
                 target: timeLabel
 
-                height: sizehelper.height
+                height: sizehelper.height + 5
                 width: sizehelper.contentWidth
 
-                font.pixelSize: timeLabel.height
+                font.pixelSize: timeLabel.height - 5
             }
 
             PropertyChanges {
                 target: timezoneLabel
 
-                height: main.showDate ? 0.7 * timeLabel.height : 0.8 * timeLabel.height
+                height: main.showDate ? 0.7 * timeLabel.height : sizehelper.height + 5
                 width: main.showDate ? timezoneLabel.paintedWidth : timeLabel.width
 
-                font.pixelSize: timezoneLabel.height
+                font.pixelSize: main.showDate ? timezoneLabel.height : timezoneLabel.height - 5
             }
 
             PropertyChanges {
                 target: dateLabel
 
-                height: 0.8 * timeLabel.height
+                height: sizehelper.height + 5
                 width: dateLabel.paintedWidth
 
-                font.pixelSize: dateLabel.height
+                font.pixelSize: dateLabel.height - 5
             }
 
             AnchorChanges {
@@ -172,8 +172,7 @@ Item {
                  * the time label is slightly larger than the date or timezone label
                  * and still fits well into the panel with all the applied margins.
                  */
-                height: Math.min(main.showDate || timezoneLabel.visible ? main.height * 0.56 : main.height * 0.71,
-                                 3 * theme.defaultFont.pixelSize)
+                height: Math.min(main.showDate || timezoneLabel.visible ? 1 * theme.defaultFont.pixelSize : 1.4 * theme.defaultFont.pixelSize)
 
                 font.pixelSize: sizehelper.height
             }
@@ -374,7 +373,7 @@ Item {
             PropertyChanges {
                 target: dateLabel
 
-                height: 0.8 * timeLabel.height
+                height: 1 * timeLabel.height
                 width: Math.max(timeLabel.contentWidth, units.gridUnit * 3)
 
                 fontSizeMode: Text.Fit
@@ -472,7 +471,7 @@ Item {
             columnSpacing: units.smallSpacing
 
             Rectangle {
-                height: 0.8 * sizehelper.height
+                height: 1 * sizehelper.height
                 width: 1
                 visible: main.showDate && main.oneLineMode
 
@@ -580,7 +579,7 @@ Item {
 
         // because QLocale is incredibly stupid and does not convert 12h/24h clock format
         // when uppercase H is used for hours, needs to be h or hh, so toLowerCase()
-        var result = hours.toLowerCase() + delimiter + minutes;
+        var result = " " + hours.toLowerCase() + delimiter + minutes;
 
         if (main.showSeconds) {
             result += delimiter + seconds;
@@ -589,6 +588,10 @@ Item {
         // add "AM/PM" either if the setting is the default and locale uses it OR if the user unchecked "use 24h format"
         if ((main.use24hFormat == Qt.PartiallyChecked && !uses24hFormatByDefault) || main.use24hFormat == Qt.Unchecked) {
             result += " " + amPm;
+        }
+        
+        if (main.showLocalTimezone == Qt.Unchecked) {
+            result += " ";
         }
 
         main.timeFormat = result;
@@ -604,7 +607,7 @@ Item {
         if (showTimezone) {
             timezoneString = plasmoid.configuration.displayTimezoneAsCode ? dataSource.data[plasmoid.configuration.lastSelectedTimezone]["Timezone Abbreviation"]
                                                                           : TimezonesI18n.i18nCity(dataSource.data[plasmoid.configuration.lastSelectedTimezone]["Timezone City"]);
-            timezoneLabel.text = (main.showDate || main.oneLineMode) && plasmoid.formFactor === PlasmaCore.Types.Horizontal ? "(" + timezoneString + ")" : timezoneString;
+            timezoneLabel.text = (main.showDate || main.oneLineMode) && plasmoid.formFactor === PlasmaCore.Types.Horizontal ? "(" + timezoneString + ") " : " " + timezoneString + " ";
         } else {
             // this clears the label and that makes it hidden
             timezoneLabel.text = timezoneString;
@@ -612,7 +615,7 @@ Item {
 
 
         if (main.showDate) {
-            dateLabel.text = Qt.formatDate(main.currentTime, main.dateFormat);
+            dateLabel.text = " " + Qt.formatDate(main.currentTime, main.dateFormat) + " ";
         } else {
             // clear it so it doesn't take space in the layout
             dateLabel.text = "";

@@ -29,8 +29,7 @@ import org.kde.plasma.calendar 2.0 as PlasmaCalendar
 Item {
     id: root
 
-    width: units.gridUnit * 10
-    height: units.gridUnit * 4
+    
     property string dateFormatString: setDateFormatString()
     property date tzDate: {
         // get the time for the given timezone from the dataengine

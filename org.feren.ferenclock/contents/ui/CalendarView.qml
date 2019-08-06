@@ -127,6 +127,7 @@ Item {
         }
 
         PlasmaComponents.Label {
+            // The XX day number on the left of the calendar //
             id: dayLabel
             anchors.left: parent.left
             height: dayHeading.height + dateHeading.height
@@ -134,10 +135,12 @@ Item {
             font.pixelSize: height
             font.weight: Font.Light
             text: agenda.dateString("dd")
-            opacity: 0.6
+            color: theme.highlightColor
         }
 
         PlasmaExtras.Heading {
+            // The day name in the left of calendar //
+            
             id: dayHeading
             anchors {
                 top: parent.top
@@ -150,6 +153,8 @@ Item {
             text: agenda.dateString("dddd")
         }
         PlasmaComponents.Label {
+            // Current month then year on left of calendar //
+            
             id: dateHeading
             anchors {
                 top: dayHeading.bottom
@@ -160,6 +165,7 @@ Item {
             elide: Text.ElideRight
             text: Qt.locale().standaloneMonthName(monthView.currentDate.getMonth())
                              + agenda.dateString(" yyyy")
+            opacity: 0.6
         }
 
         TextMetrics {
