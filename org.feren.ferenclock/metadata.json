@@ -2,8 +2,8 @@
     "KPlugin": {
         "Authors": [
             {
-                "Email": "mklapetek@kde.org",
-                "Name": "Martin Klapetek"
+                "Email": "ferenosdev@outlook.com",
+                "Name": "The Feren OS Dev"
             }
         ],
         "Category": "Date and Time",
@@ -122,7 +122,7 @@
         "Comment[zh_CN]": "按月显示您的预约和事件",
         "Comment[zh_TW]": "顯示您的約會與事件的月曆",
         "Icon": "preferences-system-time",
-        "Id": "org.kde.plasma.digitalclock",
+        "Id": "org.feren.ferenclock",
         "License": "GPL-2.0+",
         "ServiceTypes": [
             "Plasma/Applet"
