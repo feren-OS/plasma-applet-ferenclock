@@ -197,30 +197,6 @@ configure_file(config-workspace.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-works
 configure_file(config-unix.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-unix.h )
 configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h)
 configure_file(config-appstream.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-appstream.h )
-add_subdirectory(login-sessions)
-
-plasma_install_package(lookandfeel org.kde.breeze.desktop look-and-feel lookandfeel)
-plasma_install_package(lookandfeel.dark org.kde.breezedark.desktop look-and-feel lookandfeel)
-plasma_install_package(lookandfeel.twilight org.kde.breezetwilight.desktop look-and-feel lookandfeel)
-
-
-if (INSTALL_SDDM_THEME)
-    configure_file(sddm-theme/theme.conf.cmake ${CMAKE_CURRENT_BINARY_DIR}/sddm-theme/theme.conf)
-
-# Install the login theme into the SDDM directory
-# Longer term we need to look at making SDDM load from look and feel somehow.. and allow copying at runtime
-    #NOTE this trailing slash is important to rename the directory
-    install(DIRECTORY sddm-theme/ DESTINATION ${KDE_INSTALL_FULL_DATADIR}/sddm/themes/breeze PATTERN "README.txt" EXCLUDE PATTERN "components" EXCLUDE PATTERN "dummydata" EXCLUDE
-    PATTERN "theme.conf.cmake" EXCLUDE)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/sddm-theme/theme.conf DESTINATION ${KDE_INSTALL_FULL_DATADIR}/sddm/themes/breeze)
-    install(DIRECTORY lookandfeel/contents/components DESTINATION ${KDE_INSTALL_FULL_DATADIR}/sddm/themes/breeze PATTERN "README.txt" EXCLUDE)
-endif()
-
-if (INSTALL_SDDM_WAYLAND_SESSION)
-    install(FILES sddm-wayland-session/plasma-wayland.conf DESTINATION /etc/sddm.conf.d)
-else()
-    message(STATUS "INSTALL_SDDM_WAYLAND_SESSION is disabled. As soon as it's installed, SDDM will default to use Wayland and KWin for its greeter session (BETA, do not deploy to final users yet).")
-endif()
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
@@ -229,65 +205,7 @@ query_qmake(QtBinariesDir QT_INSTALL_BINS)
 
 option(PLASMA_WAYLAND_DEFAULT_SESSION "Use Wayland session by default for Plasma" FALSE)
 
-add_subdirectory(doc)
-add_subdirectory(libkworkspace)
-add_subdirectory(libdbusmenuqt)
-add_subdirectory(appmenu)
-
-add_subdirectory(libtaskmanager)
-add_subdirectory(libnotificationmanager)
-add_subdirectory(libcolorcorrect)
-add_subdirectory(components)
-
-add_subdirectory(plasma-windowed)
-add_subdirectory(shell)
-add_subdirectory(freespacenotifier)
-add_subdirectory(klipper)
-add_subdirectory(krunner)
-add_subdirectory(ksmserver)
-add_subdirectory(logout-greeter)
-add_subdirectory(ksplash)
-add_subdirectory(systemmonitor)
-add_subdirectory(statusnotifierwatcher)
-add_subdirectory(startkde)
-add_subdirectory(themes)
-
-add_subdirectory(kcms)
-
-add_subdirectory(containmentactions)
-add_subdirectory(runners)
 add_subdirectory(applets)
-add_subdirectory(dataengines)
-add_subdirectory(wallpapers)
-
-add_subdirectory(kioslave)
-add_subdirectory(ktimezoned)
-add_subdirectory(menu)
-add_subdirectory(phonon)
-
-add_subdirectory(interactiveconsole)
-
-# This ensures pressing the eject button on a CD drive ejects the disc
-# It listens to the Solid::OpticalDrive::ejectPressed signal that is only
-# supported by Solid in the HAL backend and does nothing with UDev
-if(CMAKE_SYSTEM_NAME MATCHES FreeBSD)
-add_subdirectory(solidautoeject)
-endif()
-
-ecm_optional_add_subdirectory(xembed-sni-proxy)
-
-ecm_optional_add_subdirectory(gmenu-dbusmenu-proxy)
-
-add_subdirectory(soliduiserver)
-
-if(KF5Holidays_FOUND)
-    add_subdirectory(plasmacalendarintegration)
-endif()
-
-ki18n_install(po)
-
-install(FILES plasma-workspace.categories   DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # add clang-format target for all our real source files
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
