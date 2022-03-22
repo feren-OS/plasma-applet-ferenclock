@@ -113,7 +113,7 @@ Item {
             PropertyChanges {
                 target: contentItem
 
-                height: timeLabel.height + (main.showDate ? 0.8 * timeLabel.height : 0)
+                height: timeLabel.height + (main.showDate ? dateLabel.height : 0)
                 width: Math.max(timeLabel.paintedWidth,
                                 dateLabel.paintedWidth) + PlasmaCore.Units.smallSpacing * 2
             }
@@ -133,20 +133,20 @@ Item {
             PropertyChanges {
                 target: timeLabel
 
-                height: sizehelper.height
+                height: main.showDate ? sizehelper.height * 1.34 : sizehelper.height
                 width: sizehelper.contentWidth
 
-                font.pixelSize: timeLabel.height
+                font.pixelSize: main.showDate ? sizehelper.height : timeLabel.height
             }
 
             PropertyChanges {
                 target: dateLabel
 
-                height: sizehelper.height
+                height: main.showDate ? sizehelper.height * 1.34 : sizehelper.height
                 width: dateLabel.paintedWidth
                 verticalAlignment: Text.AlignVCenter
 
-                font.pixelSize: dateLabel.height
+                font.pixelSize: main.showDate ? sizehelper.height : dateLabel.height
             }
 
             AnchorChanges {
