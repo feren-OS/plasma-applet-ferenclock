@@ -66,6 +66,8 @@ PlasmaExtras.Representation {
             id: eventHeader
 
             anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.topMargin: PlasmaCore.Units.smallSpacing
             width: visible ? parent.width / 2 - 1 : 0
 
             visible: calendar.showAgenda || calendar.showClocks
@@ -73,30 +75,8 @@ PlasmaExtras.Representation {
                 PlasmaExtras.Heading {
                     Layout.fillWidth: true
                     Layout.leftMargin: calendar.paddings // Match calendar title
-
+                    Layout.alignment: Qt.AlignVCenter
                     text: monthView.currentDate.toLocaleDateString(Qt.locale(), Locale.LongFormat)
-                }
-            }
-            RowLayout {
-                // Heading text
-                PlasmaExtras.Heading {
-                    visible: agenda.visible
-
-                    Layout.fillWidth: true
-                    Layout.leftMargin: calendar.paddings
-
-                    level: 2
-
-                    text: i18n("Events")
-                    maximumLineCount: 1
-                    elide: Text.ElideRight
-                }
-                PlasmaComponents3.ToolButton {
-                    visible: agenda.visible && ApplicationIntegration.calendarInstalled
-                    text: i18nc("@action:button Add event", "Add…")
-                    Layout.rightMargin: calendar.paddings
-                    icon.name: "list-add"
-                    onClicked: ApplicationIntegration.launchCalendar()
                 }
             }
         }
@@ -117,46 +97,10 @@ PlasmaExtras.Representation {
             }
         }
 
-        GridLayout {
+        RowLayout {
             id: calendarHeader
             width: calendar.showAgenda || calendar.showClocks ? parent.width / 2 : parent.width
             anchors.left: headerSeparator.right
-            columns: 6
-            rows: 2
-
-            PlasmaExtras.Heading {
-                Layout.row: 0
-                Layout.column: 0
-                Layout.columnSpan: 3
-                Layout.fillWidth: true
-                Layout.leftMargin: calendar.paddings + PlasmaCore.Units.smallSpacing
-                text: monthView.selectedYear === (new Date()).getFullYear() ? monthView.selectedMonth : i18nc("Format: month year", "%1 %2", monthView.selectedMonth, monthView.selectedYear.toString())
-            }
-
-            PlasmaComponents3.ToolButton {
-                Layout.row: 0
-                Layout.column: 4
-                Layout.alignment: Qt.AlignRight
-                visible: Plasmoid.action("configure").enabled
-                icon.name: "configure"
-                onClicked: Plasmoid.action("configure").trigger()
-                PlasmaComponents3.ToolTip {
-                    text: Plasmoid.action("configure").text
-                }
-            }
-
-            // Allows the user to keep the calendar open for reference
-            PlasmaComponents3.ToolButton {
-                Layout.row: 0
-                Layout.column: 5
-                checkable: true
-                checked: Plasmoid.configuration.pin
-                onToggled: Plasmoid.configuration.pin = checked
-                icon.name: "window-pin"
-                PlasmaComponents3.ToolTip {
-                    text: i18n("Keep Open")
-                }
-            }
 
             PlasmaComponents3.TabBar {
                 id: tabbar
@@ -164,9 +108,9 @@ PlasmaExtras.Representation {
                 Layout.row: 1
                 Layout.column: 0
                 Layout.columnSpan: 3
-                Layout.topMargin: PlasmaCore.Units.smallSpacing
                 Layout.fillWidth: true
                 Layout.leftMargin: PlasmaCore.Units.smallSpacing
+                Layout.bottomMargin: PlasmaCore.Units.smallSpacing
 
                 PlasmaComponents3.TabButton {
                     text: i18n("Days");
