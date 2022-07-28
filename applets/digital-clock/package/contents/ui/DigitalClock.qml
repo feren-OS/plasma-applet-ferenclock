@@ -123,7 +123,7 @@ Item {
             PropertyChanges {
                 target: contentItem
 
-                height: timeLabel.height + (main.showDate ? 0.8 * timeLabel.height : 0)
+                height: timeLabel.height + (main.showDate ? timeLabel.height + 1.5 : 0)
                 width: Math.max(timeLabel.paintedWidth,
                                 dateLabel.paintedWidth) + PlasmaCore.Units.smallSpacing * 2
             }
@@ -443,7 +443,7 @@ Item {
             verticalItemAlignment: Grid.AlignVCenter
 
             flow: Grid.TopToBottom
-            columnSpacing: PlasmaCore.Units.smallSpacing * 2
+            columnSpacing: PlasmaCore.Units.smallSpacing
 
             Components.Label  {
                 id: timeLabel
@@ -462,6 +462,9 @@ Item {
 
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
+
+                anchors.topMargin: 3
+                anchors.bottomMargin: 3
             }
         }
 
@@ -480,6 +483,9 @@ Item {
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+
+            anchors.topMargin: 3
+            anchors.bottomMargin: 3
         }
     }
     /*
