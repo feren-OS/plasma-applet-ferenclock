@@ -443,7 +443,7 @@ Item {
             verticalItemAlignment: Grid.AlignVCenter
 
             flow: Grid.TopToBottom
-            columnSpacing: PlasmaCore.Units.smallSpacing
+            columnSpacing: PlasmaCore.Units.smallSpacing * 2
 
             Components.Label  {
                 id: timeLabel
